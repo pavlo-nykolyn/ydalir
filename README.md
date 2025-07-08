@@ -7,6 +7,7 @@ either at work or in my free time.
 * [Check the availability of a remote samba share and mount it](share_pinger)
 * [Create a partiton](create_partition)
 * [Generate the checksum of a file and compare it with a "master" checksum](digest_chk)
+* [Burn a an image for an OS supported by the RaspberryPi boards into an SD card](burn_raspberry_image)
 
 > [!IMPORTANT]
 > _whenever a script uses other scripts, it is important to place them into the same directory of their caller_
@@ -135,6 +136,21 @@ If the comparison is not successful, the result of the cmp command will be print
 
 option | description
 :---:  |    :---:
-\<target-path\>             | can be either a relative or an absolute path (has to both exist and be a regular file)
-\<reference-checksum-path\> | can be either a relative or an absolute path (has to both exist and be a regular file)
+\<target-path\>             | can be either a relative or an absolute path (has to both exist and reference a regular file)
+\<reference-checksum-path\> | can be either a relative or an absolute path (has to both exist and reference a regular file)
 \<algorithm\>               | can be one of the following values: md5, sha1, sha224, sha256, sha384, sha512
+
+## burn_raspberry_image
+
+a very simple script that burns an OS image for a RaspberryPi board through dd; given that the official OS for these boards
+usually comes as a compressed file, the script employs a pipe to decompress it and source the content to dd;
+it is advisable to turn off the auto-mount feature of the host operating system.
+
+### Synopsis
+
+> burn\_raspberry\_image.sh \<block-device\> \<image-path\>
+
+option | description
+:---:  |    :---:
+\<block-device\> | has to be an absolute path (the latter has to both exist and reference a block device)
+\<image-path\> | can be either a relative or an absolute path to an image file (the latter has to both exist and reference a regular file)
