@@ -164,7 +164,7 @@ be pulled down. It is possible to indicate either the user-friendly name or the 
 SHALL provide at least one identifier (why one would choose to not provide an identifier is beyond me...). It is possible to use
 the script only to ascertain that a network connection is active.
 
-[!IMPORTANT]
+> [!IMPORTANT]
 > when both the user-friendly and the unique identifier are specified, the latter is given a higher priority
 
 The script is implemented through two files:
