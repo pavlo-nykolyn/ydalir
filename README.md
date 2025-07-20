@@ -8,6 +8,8 @@ either at work or in my free time.
 * [Create a partiton](create_partition)
 * [Generate the checksum of a file and compare it with a "master" checksum](digest_chk)
 * [Burn a an image for an OS supported by the RaspberryPi boards into an SD card](burn_raspberry_image)
+* [Checks and, if commanded to do so, inhibits an active network connection](inhibit_network_connection)
+* [Removes all files that result from the compilation of python source files](rm_compiled_python)
 
 > [!IMPORTANT]
 > _whenever a script uses other scripts, it is important to place them into the same directory of their caller_
@@ -154,3 +156,40 @@ option | description
 :---:  |    :---:
 \<block-device\> | has to be an absolute path (the latter has to both exist and reference a block device)
 \<image-path\> | can be either a relative or an absolute path to an image file (the latter has to both exist and reference a regular file)
+
+## inhibit_network_connection
+
+this script uses nmcli to find a connection and, if the latter is active and the caller indicated its inhibition, the connection will
+be pulled down. It is possible to indicate either the user-friendly name or the unique identifier of the network connection. The caller
+SHALL provide at least one identifier (why one would choose to not provide an identifier is beyond me...). It is possible to use
+the script only to ascertain that a network connection is active.
+
+[!IMPORTANT]
+> when both the user-friendly and the unique identifier are specified, the latter is given a higher priority
+
+The script is implemented through two files:
+
+- inhibit\_network\_connection.sh
+- get\_identifier.awk
+
+the former uses nmcli to verify the status of the connection and, eventually, to pull it down. The latter, analyzes the result of
+a call to nmcli that uses the connection command. The first occurrence of an active connection that matches the specified identifier
+will be used as the inhibition target. This is why I've given the possibility to indicate a unique identifier in order to distinguish
+connections that bear the same user-friendly name.
+
+### Synopsis
+
+> inhibit\_network\_connection.sh \[-p\] -n \<connection-name\> \[-u \<connection-uuid\>\]
+
+option | description
+:---:  |    :---:
+-p | the connection inhibition will be performed
+-n \<connection-name\> | user-friendly name of the connection
+-u \<connection-uuid\> | unique identifier of the connection
+
+## rm_compiled_python
+
+a very simple script that analyzes a directory and its sub-directories in order to find and delete compiled python files and the
+\_\_pycache\_\_ sub-directories. It requires a single input parameter: the root directory where the search will take place
+
+> rm\_compiled\_python.sh \<root-dir\>
