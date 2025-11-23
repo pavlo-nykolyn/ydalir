@@ -10,6 +10,7 @@ either at work or in my free time.
 * [Burn a an image for an OS supported by the RaspberryPi boards into an SD card](burn_raspberry_image)
 * [Checks and, if commanded to do so, inhibits an active network connection](inhibit_network_connection)
 * [Removes all files that result from the compilation of python source files](rm_compiled_python)
+* [Restarts a Docker container](restart_container)
 
 > [!IMPORTANT]
 > _whenever a script uses other scripts, it is important to place them into the same directory of their caller_
@@ -193,3 +194,10 @@ a very simple script that analyzes a directory and its sub-directories in order 
 \_\_pycache\_\_ sub-directories. It requires a single input parameter: the root directory where the search will take place
 
 > rm\_compiled\_python.sh \<root-dir\>
+
+## restart_container
+
+another fairly simple script that restarts a Docker container. Two seconds is the time interval that shall expire before the container
+is started again. The only input parameter is the container name (an exact match will be performed by the script)
+
+> restart_container.sh \<container-name\>
