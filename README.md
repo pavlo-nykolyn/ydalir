@@ -11,6 +11,7 @@ either at work or in my free time.
 * [Checks and, if commanded to do so, inhibits an active network connection](inhibit_network_connection)
 * [Removes all files that result from the compilation of python source files](rm_compiled_python)
 * [Restarts a Docker container](restart_container)
+* [Creates a primary partition and a file system on top of it](makePrimaryPart)
 
 > [!IMPORTANT]
 > _whenever a script uses other scripts, it is important to place them into the same directory of their caller_
@@ -201,3 +202,25 @@ another fairly simple script that restarts a Docker container. Two seconds is th
 is started again. The only input parameter is the container name (an exact match will be performed by the script)
 
 > restart_container.sh \<container-name\>
+
+## makePrimaryPart
+
+a much simpler variant of my create_partition script which performs the following operations:
+
+1. removes any existing partition on the indicated block device;
+2. allocates the entire block device memory to a single primary partition;
+3. creates a file-system (read/write checks on memory cells are undertaken during creation) on top of the partition;
+
+it is assumed that:
+
+- _parted_ is installed;
+- both _parted_ and _mke2fs_ can be found in one of the following directories: _/bin_, _/sbin_, _/usr/bin_, _/usr/sbin_;
+- if the current user is not root, then the script shall be invoked with super-user privileges;
+
+> [!IMPORTANT]
+> I've limited file-system selection to the following set: {ext2, ext3, ext4}
+
+> [!NOTE]
+> the exisiting partitions will be removed in reverse order. I'm assuming that the right-most partitions do not include the primary partition
+
+> makePrimaryPart.sh \<absolute-path-block-device\> \<file-system-type\>
