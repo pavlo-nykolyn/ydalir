@@ -3,15 +3,15 @@
 A collection of bash scripts that I've written to solve various issues related to Linux machine
 either at work or in my free time.
 
-* [Remove arbitrary columns from a .csv file](veiði)
-* [Check the availability of a remote samba share and mount it](share_pinger)
-* [Create a partiton](create_partition)
-* [Generate the checksum of a file and compare it with a "master" checksum](digest_chk)
-* [Burn a an image for an OS supported by the RaspberryPi boards into an SD card](burn_raspberry_image)
-* [Checks and, if commanded to do so, inhibits an active network connection](inhibit_network_connection)
-* [Removes all files that result from the compilation of python source files](rm_compiled_python)
-* [Restarts a Docker container](restart_container)
-* [Creates a primary partition and a file system on top of it](makePrimaryPart)
+* [Remove arbitrary columns from a .csv file](#veiði)
+* [Check the availability of a remote samba share and mount it](#share_pinger)
+* [Create a partiton](#create_partition)
+* [Generate the checksum of a file and compare it with a "master" checksum](#digest_chk)
+* [Burn a an image for an OS supported by the RaspberryPi boards into an SD card](#burn_raspberry_image)
+* [Checks and, if commanded to do so, inhibits an active network connection](#inhibit_network_connection)
+* [Removes all files that result from the compilation of python source files](#rm_compiled_python)
+* [Restarts a Docker container](#restart_container)
+* [Creates a primary partition and a file system on top of it](#makeprimarypart)
 
 > [!IMPORTANT]
 > _whenever a script uses other scripts, it is important to place them into the same directory of their caller_
