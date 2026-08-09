@@ -12,6 +12,7 @@ either at work or in my free time.
 * [Removes all files that result from the compilation of python source files](#rm_compiled_python)
 * [Restarts a Docker container](#restart_container)
 * [Creates a primary partition and a file system on top of it](#makeprimarypart)
+* [Attempts to mount the filesystem of an SCSI-based device given its serial number](#mountSCSI)
 
 > [!IMPORTANT]
 > _whenever a script uses other scripts, it is important to place them into the same directory of their caller_
@@ -224,3 +225,19 @@ it is assumed that:
 > the exisiting partitions will be removed in reverse order. I'm assuming that the right-most partitions do not include the primary partition
 
 > makePrimaryPart.sh \<absolute-path-block-device\> \<file-system-type\>
+
+## mountSCSI
+
+three input parameters can be specified:
+
+1. the target directory (MANDATORY);
+2. the device serial number (MANDATORY);
+3. a comma separated sequence of options accepted by the _mount_ tool;
+
+> [!IMPORTANT]
+> I'm assuming that the script will be run as root. Hence, the log file _/var/log/mountSCSI.log_ will be owned by root
+
+> [!NOTE]
+> Only the content of the first partition will be available within to the host file-system
+
+(I've written the script with devices having a single partition as, without external input, there is no way to know which partition needs to be used)
