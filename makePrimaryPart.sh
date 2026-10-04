@@ -76,16 +76,24 @@ then
 else
    impress '[ERR]' "parted has not been found"
 fi
-# removing any exisiting partition
-partition_set="$(${tool_dir}/parted --script --machine ${target_path} print | tail --lines=+3 | cut '--delimiter=:' --fields=1 | sort --reverse | tr '\n' ' ')"
-# I'm expecting that the first partition is the primary one (hence the --reverse option)
-# whenever no partition does exist on the device (tail produces no lines at all), tr will result in a string containing a single space
-if [ -z "$(echo ${partition_set} | sed -n '/^ $/p')" ]
+# if a partition table does not exist, then a GPT one will be created
+disk_label="$(${tool_dir}/parted --script --machine ${target_path} print | tail --lines=1 | cut '--delimiter=:' --fields=6 | sed -n '/^unknown$/p')"
+if [ -n "${disk_label}" ]
 then
-   for partition_number in ${partition_set}
-   do
-      ${tool_dir}/parted --script --machine ${target_path} rm ${partition_number}
-   done
+   ${tool_dir}/parted --script --machine ${target_path} mklabel gpt
+   impress '[INF]' 'the disk referenced by ${target_path} is now configured with a GPT label'
+else
+   # removing any exisiting partition
+   partition_set="$(${tool_dir}/parted --script --machine ${target_path} print | tail --lines=+3 | cut '--delimiter=:' --fields=1 | sort --reverse | tr '\n' ' ')"
+   # I'm expecting that the first partition is the primary one (hence the --reverse option)
+   # whenever no partition does exist on the device (tail produces no lines at all), tr will result in a string containing a single space
+   if [ -z "$(echo ${partition_set} | sed -n '/^ $/p')" ]
+   then
+      for partition_number in ${partition_set}
+      do
+         ${tool_dir}/parted --script --machine ${target_path} rm ${partition_number}
+      done
+   fi
 fi
 "${tool_dir}/parted" --script --machine "${target_path}" mkpart primary "${fs_type}" '0%' '100%'
 if [ $? -ne 0 ]

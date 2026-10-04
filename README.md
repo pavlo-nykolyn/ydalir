@@ -222,6 +222,9 @@ it is assumed that:
 > I've limited file-system selection to the following set: {ext2, ext3, ext4}
 
 > [!NOTE]
+> if the disk does not have a partition table, a GPT one will be created for it
+
+> [!NOTE]
 > the exisiting partitions will be removed in reverse order. I'm assuming that the right-most partitions do not include the primary partition
 
 > makePrimaryPart.sh \<absolute-path-block-device\> \<file-system-type\>
